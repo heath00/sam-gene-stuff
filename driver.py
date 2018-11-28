@@ -21,7 +21,7 @@ run2 = gene_files(inp2)
 # herc_three.ddct_calculations()
 # herc_three.foldchange_calculations()
 # herc_three.std_error_calculations()
-
+buf = 'gapdh,,,,,,,hprt\nname,foldchange,error,p-value,,,,name,foldchange,error,p-value\n'
 for i in range(strt, end + 1):
 	if skip:
 		if i in skip:
@@ -32,9 +32,14 @@ for i in range(strt, end + 1):
 	this_gene.foldchange_calculations()
 	this_gene.std_error_calculations()
 	this_gene.t_tests()
-	print(this_gene.name, "gapdh ", "|FC: ", this_gene.fc_gapdh, "|Error: ", this_gene.std_err_gapdh, "|P-Value: ", this_gene.gapdh_t_test)
-	print(this_gene.name, "hprt ", "|FC: ", this_gene.fc_hprt, "|Error: ", this_gene.std_err_hprt, "|P-Value: ", this_gene.hprt_t_test)
+	buf += this_gene.name + ',' + str(this_gene.fc_gapdh) + ',' + str(this_gene.std_err_gapdh) + ',' + str(this_gene.gapdh_t_test) + ',,,,'
+	buf += this_gene.name + ',' + str(this_gene.fc_hprt) + ',' + str(this_gene.std_err_hprt) + ',' + str(this_gene.hprt_t_test) + '\n'
 
+outname = input("Enter the name of the output file (must be .csv): ")
+
+f = open(outname,'w')
+f.write(buf)
+f.close()
 
 # g1_wt = subgene("WT")
 # g1_ko = subgene("KO")
