@@ -7,12 +7,15 @@ class gene:
 		self.ko = ko_subgene
 		self.gene_num = gene_num
 
-	def populate_subgenes(self, run1, run2):
+	def populate_subgenes(self, runs):
 		# gets all files into subgenes
-		self.wt.populate_array(run1.create_slice(self.gene_num))
-		self.wt.populate_array(run2.create_slice(self.gene_num))
-		self.ko.populate_array(run1.create_slice(self.gene_num))
-		self.ko.populate_array(run2.create_slice(self.gene_num))
+		for run in runs:
+			self.wt.populate_array(run.create_slice(self.gene_num))
+			self.ko.populate_array(run.create_slice(self.gene_num))
+		# self.wt.populate_array(run1.create_slice(self.gene_num))
+		# self.wt.populate_array(run2.create_slice(self.gene_num))
+		# self.ko.populate_array(run1.create_slice(self.gene_num))
+		# self.ko.populate_array(run2.create_slice(self.gene_num))
 
 		# begin stats calculations
 		self.wt.stats_setup()
