@@ -17,15 +17,7 @@ runs = []
 for run in inp:
 	this_run = gene_files(run)
 	runs.append(this_run)
-# run1 = gene_files(inp1)
-# run2 = gene_files(inp2)
 
-# herc_three = gene(subgene("WT"), subgene("KO"),1)
-
-# herc_three.populate_subgenes(run1,run2)
-# herc_three.ddct_calculations()
-# herc_three.foldchange_calculations()
-# herc_three.std_error_calculations()
 buf = 'gapdh,,,,,,,hprt\nname,foldchange,error,p-value,,,,name,foldchange,error,p-value\n'
 for i in range(strt, end + 1):
 	if skip:
@@ -45,15 +37,3 @@ outname = input("Enter the name of the output file (must be .csv): ")
 f = open(outname,'w')
 f.write(buf)
 f.close()
-
-# g1_wt = subgene("WT")
-# g1_ko = subgene("KO")
-
-# my_gene1.populate_array(run1.create_slice(1))
-# my_gene1.populate_array(run2.create_slice(1))
-
-# print("--------Pre outlier removal---------")
-# my_gene1.print_arrays()
-# print("--------Post outlier removal--------")
-# my_gene1.calc_stats()
-# my_gene1.print_arrays()

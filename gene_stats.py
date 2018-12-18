@@ -133,6 +133,7 @@ class subgene:
 
 	# Functions for statistics
 	def stats_setup(self):
+		print("trying ", self.print_arrays())
 		self.gapdh.calc_preoutlier_stats()
 		self.hprt.calc_preoutlier_stats()
 
@@ -195,9 +196,3 @@ class subarr:
 
 	def get_array(self):
 		return self.arr
-	
-
-
-
-
-
