@@ -3,7 +3,7 @@ import openpyxl
 import os
 
 class gene_files:
-	def __init__(self, fname):
+	def __init__(self, fname, isgeomean=False):
 
 		# if it's an excel file
 		if fname[-1] == 'x':
@@ -26,9 +26,17 @@ class gene_files:
 			# self.my_file = rows
 			# print(len(self.my_file))
 			wb = openpyxl.load_workbook(fname, data_only=True)
-			print('These sheets are available in ' , fname , ':', wb.get_sheet_names())
-			sheet_ind = input('Enter the index of the sheet you want to access (first one is 0, next is 1, etc.): ')
+
+			if not isgeomean:
+				print('These sheets are available in ' , fname , ':', wb.get_sheet_names())
+				sheet_ind = input('Enter the index of the sheet you want to access (first one is 0, next is 1, etc.): ')
+			else:
+				sheet_ind = wb.get_sheet_names().index('GeoMean')
+				print("geomean index is: ", sheet_ind)
+
+
 			sheet = wb.worksheets[int(sheet_ind)]
+
 			with open(fname[:-4] + 't1.csv', 'w', newline="") as f:
 				c = csv.writer(f)
 				for r in sheet.rows:
@@ -37,7 +45,7 @@ class gene_files:
 			with open(fname[:-4] + 't1.csv') as csv_file:
 				reader = csv.reader(csv_file, delimiter=',')
 				self.my_file=list(reader)
-				print("length:", len(self.my_file))
+
 			os.remove(fname[:-4] + 't1.csv')
 		# else we treat it as csv	
 		else: 
@@ -55,5 +63,8 @@ class gene_files:
 	
 	def print_contents(self):
 		print(self.my_file)
+
+	def print_len(self):
+		print(len(self.my_file))
 
 
