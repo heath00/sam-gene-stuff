@@ -133,7 +133,6 @@ class subgene:
 
 	# Functions for statistics
 	def stats_setup(self):
-		print("trying ", self.print_arrays())
 		self.gapdh.calc_preoutlier_stats()
 		self.hprt.calc_preoutlier_stats()
 
@@ -180,8 +179,9 @@ class subarr:
 
 	def remove_outliers(self):
 		iqr_mult = 1.5*self.iqr
+		pre_removal_len = len(self.arr)
 		self.arr = [i for i in self.arr if ((i < (iqr_mult + self.q75)) and (i > (self.q25 - iqr_mult)))]
-
+		self.num_outliers =  pre_removal_len - len(self.arr)
 
 	def get_mean(self):
 		self.mean = np.mean(self.arr)
