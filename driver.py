@@ -8,7 +8,7 @@ if choice == 'n':
 else:
 	inp = input("Enter directory name: ")
 	inpfiles = os.listdir(inp)
-	inp = [x for x in inp if inp[-1] == 'x' or inp[-1] == 'v']
+	inpfiles = [x for x in inpfiles if x[-1] == 'x' or x[-1] == 'v']
 	inpfiles = [inp + '/' + x for x in inpfiles]
 	inp = inpfiles
 
