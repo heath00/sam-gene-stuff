@@ -7,6 +7,7 @@ if choice == 'n':
 	inp = inp.split(',')
 else:
 	inp = input("Enter directory name: ")
+	inp = [x for x in inp if inp[-1] == 'x' or inp[-1] == 'v']
 	inpfiles = os.listdir(inp)
 	inpfiles = [inp + '/' + x for x in inpfiles]
 	inp = inpfiles
