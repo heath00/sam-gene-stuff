@@ -1,6 +1,19 @@
 from gene_file import gene_files
 from gene_stats import gene, subgene
-inp = input("Enter run filenames separated by a comma (i.e. run 1.csv,run 2.csv): ")
+import os
+choice = input("Want to enter a directory? [y/n]: ")
+if choice == 'n':
+	inp = input("Enter run filenames separated by a comma (i.e. run 1.csv,run 2.csv): ")
+	inp = inp.split(',')
+else:
+	inp = input("Enter directory name: ")
+	inpfiles = os.listdir(inp)
+	inpfiles = [inp + '/' + x for x in inpfiles]
+	inp = inpfiles
+
+
+
+
 strt = input("Enter first gene to be considered (0 indexed, so if you want to skip the first you do 1): ")
 strt = int(strt)
 end = input("Enter the final gene to be considered (the number of the final gene in the spreadsheet like 17 or whatever): ")
@@ -11,7 +24,7 @@ if len(skip) != 0:
 	skip = skip.split(',')
 	skip = [int(i) for i in skip]
 
-inp = inp.split(',')
+
 print(inp)
 runs = []
 geomean_runs = []

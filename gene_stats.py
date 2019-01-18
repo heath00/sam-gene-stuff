@@ -21,6 +21,7 @@ class gene:
 		self.wt.stats_setup()
 		self.ko.stats_setup()
 
+
 		self.name = self.ko.get_name()
 
 	def print_all(self):
@@ -181,7 +182,7 @@ class subarr:
 		iqr_mult = 1.5*self.iqr
 		pre_removal_len = len(self.arr)
 		self.arr = [i for i in self.arr if ((i < (iqr_mult + self.q75)) and (i > (self.q25 - iqr_mult)))]
-		self.num_outliers =  pre_removal_len - len(self.arr)
+		self.sqrt_outliers =  np.sqrt(pre_removal_len - len(self.arr))
 
 	def get_mean(self):
 		self.mean = np.mean(self.arr)
