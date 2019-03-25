@@ -21,6 +21,7 @@ class gene:
 		self.wt.stats_setup()
 		self.ko.stats_setup()
 
+		self.wt_n = self.wt
 
 		self.name = self.ko.get_name()
 
@@ -89,7 +90,7 @@ class gene:
 		self.sd_fc_hprt = np.std([self.fc_upper_hprt, self.fc_hprt, self.fc_lower_hprt], ddof=1)
 
 	def std_error(self, len_arr1, len_arr2, sd):
-		return sd / (max(len_arr1, len_arr2)**.5)
+		return sd / (min(len_arr1, len_arr2)**.5)
 
 	def std_error_calculations(self):
 		self.std_err_gapdh = self.std_error(self.ko.gapdh_len(), self.wt.gapdh_len(), self.sd_fc_gapdh)
@@ -182,7 +183,7 @@ class subarr:
 		iqr_mult = 1.5*self.iqr
 		pre_removal_len = len(self.arr)
 		self.arr = [i for i in self.arr if ((i < (iqr_mult + self.q75)) and (i > (self.q25 - iqr_mult)))]
-		self.sqrt_outliers =  np.sqrt(pre_removal_len - len(self.arr))
+		
 
 	def get_mean(self):
 		self.mean = np.mean(self.arr)
