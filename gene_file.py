@@ -30,8 +30,8 @@ class gene_files:
 			if not isgeomean:
 				# print('These sheets are available in ' , fname , ':', wb.get_sheet_names())
 				# sheet_ind = input('Enter the index of the sheet you want to access (first one is 0, next is 1, etc.): ')
-				sheet_ind = wb.get_sheet_names().index('Analysis')
-				print("analysis index is: ", sheet_ind)
+				sheet_ind = wb.get_sheet_names().index('WO Outliers')
+				print("wo outliers index is: ", sheet_ind)
 			else:
 				sheet_ind = wb.get_sheet_names().index('GeoMean')
 				print("geomean index is: ", sheet_ind)
