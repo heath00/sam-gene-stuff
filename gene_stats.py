@@ -100,8 +100,11 @@ class gene:
 		self.gapdh_t_test = stats.ttest_ind(self.ko.get_gapdh(), self.wt.get_gapdh(), equal_var=False)[1]
 		self.hprt_t_test = stats.ttest_ind(self.ko.get_hprt(), self.wt.get_hprt(), equal_var=False)[1]
 
-
-
+	def get_post_outlier_numbers(self,stat_dict):
+		stat_dict['gapdh_wt'] = self.wt.gapdh_len()
+		stat_dict['gapdh_ko'] = self.ko.gapdh_len()
+		stat_dict['hprt_wt'] = self.wt.hprt_len()
+		stat_dict['hprt_ko'] = self.ko.hprt_len()
 
 
 class subgene:
@@ -147,7 +150,6 @@ class subgene:
 	def get_stds(self):
 		return self.gapdh.get_std(), self.hprt.get_std()
 
-
 	def gapdh_len(self):
 		return self.gapdh.get_len()
 
@@ -183,7 +185,6 @@ class subarr:
 		iqr_mult = 1.5*self.iqr
 		pre_removal_len = len(self.arr)
 		self.arr = [i for i in self.arr if ((i < (iqr_mult + self.q75)) and (i > (self.q25 - iqr_mult)))]
-		
 
 	def get_mean(self):
 		self.mean = np.mean(self.arr)
