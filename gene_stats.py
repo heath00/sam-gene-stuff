@@ -41,6 +41,8 @@ class gene:
 		print("gapdh ttest: ", self.gapdh_t_test)
 		print("hprt ttest: ", self.hprt_t_test)
 
+
+
 	def ddct_calculations(self):
 		# calculate ddct via ko_mean - wt_mean
 		wt_gapdh_mean, wt_hprt_mean = self.wt.get_means()
@@ -48,17 +50,68 @@ class gene:
 		self.ddct_gapdh = ko_gapdh_mean - wt_gapdh_mean
 		self.ddct_hprt = ko_hprt_mean - wt_hprt_mean
 
-		# calculate std of ddct via sqrt(ko_std^2 + wt_std^2)
+		# # calculate std of ddct via sqrt(ko_std^2 + wt_std^2)
 		wt_gapdh_std, wt_hprt_std = self.wt.get_stds()
 		ko_gapdh_std, ko_hprt_std = self.ko.get_stds()
-		self.sd_ddct_gapdh = (ko_gapdh_std**2 + wt_gapdh_std**2)**.5
-		self.sd_ddct_hprt = (ko_hprt_std**2 + wt_hprt_std**2)**.5
+		# self.sd_ddct_gapdh = (ko_gapdh_std**2 + wt_gapdh_std**2)**.5
+		# self.sd_ddct_hprt = (ko_hprt_std**2 + wt_hprt_std**2)**.5
+
+		# CHANGES
+		# now calculate (ko_std^2/num_ko_after_ouliers_removed + wt_std^2/num_wt_after_ouliers_removed)
+		# t statistic -> degrees of freedom = min(num_ko_after_outliers_removed, num_wt_after_outliers_removed) - 1
+		# 12.71 -> 1.960
+		# now just print upper bound fold change and lower bound fold change, stop printing the error
+
+		# make t table
+		t_table = {1:  12.71,\
+				   2:  4.303,\
+				   3:  3.182,\
+				   4:  2.776,\
+				   5:  2.571,\
+				   6:  2.447,\
+				   7:  2.365,\
+				   8:  2.306,\
+				   9:  2.262,\
+				   10: 2.228,\
+				   11: 2.201,\
+				   12: 2.179,\
+				   13: 2.160,\
+				   14: 2.145,\
+				   15: 2.131}
+		
+		gapdh_deg_freedom = min(self.wt.gapdh_len(), self.ko.gapdh_len()) - 1
+		print('gapdh_deg_freedom = ' , gapdh_deg_freedom)
+		self.sd_ddct_gapdh = t_table[gapdh_deg_freedom] * ( ((ko_gapdh_std**2) / self.ko.gapdh_len()) + ((wt_gapdh_std**2) / self.wt.gapdh_len()) )**.5 
+
+		hprt_deg_freedom = min(self.wt.hprt_len(), self.ko.hprt_len()) - 1
+
+		# this conditional is to avoid the hprt calculation for geomean. messy, but -1 just acts as a flag here since hprt_len is 0
+		if hprt_deg_freedom != -1:
+			print('hprt_deg_freedom = ' , hprt_deg_freedom)
+			self.sd_ddct_hprt = t_table[hprt_deg_freedom] * ( ((ko_hprt_std**2) / self.ko.hprt_len()) + ((wt_hprt_std**2) / self.wt.hprt_len()) )**.5
+		else:
+			self.sd_ddct_hprt = 1
 
 		# calculate uppers and lowers
 		self.ddct_upper_gapdh = self.ddct_gapdh + self.sd_ddct_gapdh
 		self.ddct_lower_gapdh = self.ddct_gapdh - self.sd_ddct_gapdh
 		self.ddct_upper_hprt = self.ddct_hprt + self.sd_ddct_hprt
 		self.ddct_lower_hprt = self.ddct_hprt - self.sd_ddct_hprt
+
+		# self.debug_printer()
+
+	def debug_printer(self):
+		print('gene name: ', self.name)
+		print('-------------------------------------------')
+		print('uppder ddct gapdh', self.ddct_upper_gapdh)
+		print('lower ddct gapdh', self.ddct_lower_gapdh)
+		print('uppder ddct hprt', self.ddct_upper_hprt)
+		print('lower ddct hprt', self.ddct_lower_hprt)
+
+		print('wt_gapdh: ', self.wt.gapdh.get_array())
+		print('ko_gapdh: ', self.ko.gapdh.get_array())
+		print('wt_hprt: ', self.wt.hprt.get_array())
+		print('ko_hprt: ', self.ko.hprt.get_array())
 
 	def foldchange_helper(self, ddct_val):
 		if ddct_val < 0:

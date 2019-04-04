@@ -36,7 +36,7 @@ for run in inp:
 	geomean_runs.append(geomean_run)
 
 
-buf = 'gapdh,,,,,,,,,hprt,,,,,,,,,geomean\nname,foldchange,error,p-value,KO #,WT #,,,,name,foldchange,error,p-value,KO #,WT #,,,,name,foldchange,error,p-value,KO #,WT #\n'
+buf = 'gapdh,,,,,,,,,hprt,,,,,,,,,geomean\nname,foldchange,foldchange upper bound,foldchange lower bound,p-value,KO #,WT #,,,,name,foldchange,foldchange upper bound,foldchange lower bound,p-value,KO #,WT #,,,,name,foldchange,foldchange upper bound,foldchange lower bound,p-value,KO #,WT #\n'
 for i in range(strt, end + 1):
 	if skip:
 		if i in skip:
@@ -58,9 +58,9 @@ for i in range(strt, end + 1):
 	this_gene.get_post_outlier_numbers(post_outlier_numbers)
 	post_outlier_numbers_geomean = {}
 	geomean_gene.get_post_outlier_numbers(post_outlier_numbers_geomean)
-	buf += this_gene.name + ',' + str(this_gene.fc_gapdh) + ',' + str(this_gene.std_err_gapdh) + ',' + str(this_gene.gapdh_t_test) + ',' + str(post_outlier_numbers['gapdh_ko']) + ',' + str(post_outlier_numbers['gapdh_wt']) + ',,,,'
-	buf += this_gene.name + ',' + str(this_gene.fc_hprt) + ',' + str(this_gene.std_err_hprt) + ',' + str(this_gene.hprt_t_test) + ',' + str(post_outlier_numbers['hprt_ko']) + ',' + str(post_outlier_numbers['hprt_wt']) + ',,,,'
-	buf += geomean_gene.name + ',' + str(geomean_gene.fc_gapdh) + ',' + str(geomean_gene.std_err_gapdh) + ',' + str(geomean_gene.gapdh_t_test) + ',' + str(post_outlier_numbers_geomean['gapdh_ko']) + ',' + str(post_outlier_numbers_geomean['gapdh_wt']) + '\n'
+	buf += this_gene.name + ',' + str(this_gene.fc_gapdh) + ',' + str(this_gene.fc_upper_gapdh) + ',' + str(this_gene.fc_lower_gapdh) + ',' + str(this_gene.gapdh_t_test) + ',' + str(post_outlier_numbers['gapdh_ko']) + ',' + str(post_outlier_numbers['gapdh_wt']) + ',,,,'
+	buf += this_gene.name + ',' + str(this_gene.fc_hprt) + ',' + str(this_gene.fc_upper_hprt) + ',' + str(this_gene.fc_lower_hprt) + ',' + str(this_gene.hprt_t_test) + ',' + str(post_outlier_numbers['hprt_ko']) + ',' + str(post_outlier_numbers['hprt_wt']) + ',,,,'
+	buf += geomean_gene.name + ',' + str(geomean_gene.fc_gapdh) + ',' + str(geomean_gene.fc_upper_gapdh) + ',' + str(geomean_gene.fc_lower_gapdh) + ',' +  str(geomean_gene.gapdh_t_test) + ',' + str(post_outlier_numbers_geomean['gapdh_ko']) + ',' + str(post_outlier_numbers_geomean['gapdh_wt']) + '\n'
 	print(str(post_outlier_numbers_geomean['hprt_ko']) + "and" + str(post_outlier_numbers_geomean['hprt_wt']))
 
 outname = input("Enter the name of the output file (must be .csv): ")
