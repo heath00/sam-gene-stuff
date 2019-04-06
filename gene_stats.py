@@ -133,10 +133,10 @@ class gene:
 		self.fc_hprt = self.foldchange_helper(self.ddct_hprt)
 
 		# foldchange upper/lower calcs
-		self.fc_upper_gapdh = self.foldchange_ul_helper(self.ddct_gapdh, self.ddct_upper_gapdh)
-		self.fc_lower_gapdh = self.foldchange_ul_helper(self.ddct_gapdh, self.ddct_lower_gapdh)
-		self.fc_upper_hprt = self.foldchange_ul_helper(self.ddct_hprt, self.ddct_upper_hprt)
-		self.fc_lower_hprt = self.foldchange_ul_helper(self.ddct_hprt, self.ddct_lower_hprt)
+		self.fc_upper_gapdh = self.foldchange_ul_helper(self.ddct_upper_gapdh, self.ddct_upper_gapdh)
+		self.fc_lower_gapdh = self.foldchange_ul_helper(self.ddct_lower_gapdh, self.ddct_lower_gapdh)
+		self.fc_upper_hprt = self.foldchange_ul_helper(self.ddct_upper_hprt, self.ddct_upper_hprt)
+		self.fc_lower_hprt = self.foldchange_ul_helper(self.ddct_lower_hprt, self.ddct_lower_hprt)
 
 		# standard deviations
 		self.sd_fc_gapdh = np.std([self.fc_upper_gapdh, self.fc_gapdh, self.fc_lower_gapdh], ddof=1)
